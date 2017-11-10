@@ -1,0 +1,44 @@
+<script src="character.js"></script>
+<script src="string.js"></script>
+<script src="number.js"></script>
+<script src="stdio.js"></script>
+<script src="parser.js"></script>
+
+
+<textarea id="chars"></textarea>
+<textarea id="code"></textarea>
+<input type="button" id="run" value="run" />
+<textarea id="output"></textarea>
+
+<script type="text/javascript">
+	var chars = document.getElementById('chars');	
+	var code = document.getElementById('code');	
+	var output = document.getElementById('output');
+
+	var old_write = stdout.write;
+	var old_clear = stdout.clear;
+	stdout.clear = function() {
+		old_clear();
+		stdout.write();
+	}
+	stdout.write = function() {
+		var res = old_write.apply(stdout, Array.prototype.slice.call(arguments));
+		output.value = stdout.__content__;
+		return res;
+	}
+
+	chars.value = characters.chars;
+
+	var run = document.getElementById('run');
+	run.onclick = function(e) {
+		stdout.clear();
+		var parser = new Parser(code.value);
+		if(parser.is_valid) {
+			stdout.write.apply(stdout, parser.params);
+			stdout.write("GOOD");
+		} else {
+			stdout.write("FAILED");
+		}
+	}
+
+</script>
