@@ -2,8 +2,9 @@
 <script src="string.js"></script>
 <script src="number.js"></script>
 <script src="stdio.js"></script>
+<script src="reference.js"></script>
 <script src="parser.js"></script>
-
+<script src="../io.js"></script>
 
 <textarea id="chars"></textarea>
 <textarea id="code"></textarea>
@@ -32,12 +33,15 @@
 	var run = document.getElementById('run');
 	run.onclick = function(e) {
 		stdout.clear();
-		var parser = new Parser(code.value);
+		var parser = new Parser(code.value, true);
 		if(parser.is_valid) {
-			stdout.write.apply(stdout, parser.params);
-			stdout.write("GOOD");
+			parser.tokenize();
+			while(parser.step());
 		} else {
-			stdout.write("FAILED");
+			stdout.write("FAILED\n");
+			for(var i = 0, l = parser.debug.length; i < l; ++i) {
+				stdout.write(parser.debug[i].msg + "\n");
+			}
 		}
 	}
 

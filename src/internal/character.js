@@ -189,10 +189,17 @@ function reverse_string(s) {
     for(var i = s.length; i--;) t += s[i];
     return t;
 }
+
+
+//----------------------------------------------------------------------------------------  
+function insert_string(s, i, o) {
+    return s.slice(0, i) + o + s.slice(i);
+}
     
 
 //----------------------------------------------------------------------------------------
 global.characters = {
+    handle_bug: function(c) { return c[c.length-1] },
     encode: encode,
     decode: decode,
     chars: chars,
@@ -228,6 +235,7 @@ global.characters = {
     pad_n: pad_n,
     char_array: char_array,
     reverse_string: reverse_string,
+    insert_string: insert_string,
 }
 
 

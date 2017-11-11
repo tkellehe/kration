@@ -1,4 +1,4 @@
-(function(global, characters, NUMBER, STRING, stdout, stdin){
+(function(global, characters, NUMBER, STRING, stdout, stdin, Reference){
 
 
 //----------------------------------------------------------------------------------------
@@ -17,13 +17,20 @@ function char_iter(s, i) {
     this.get = function() { return this.content[this.index]; }
 }
 
+Parser.tokens = {};
+
 //----------------------------------------------------------------------------------------
-function Parser(code) {
+function Parser(code, is_debug) {
     this.props = { };
     this.regs = [new NUMBER(0), new STRING(""), new STRING("Hello, World!")];
     this.params = [];
-    this.ops = [];
-    this.look_up = {};
+    this.params.loc = -1;
+    this.methods = [];
+    this.call_stack = [];
+    this.structs = {};
+
+    this.is_debug = !!is_debug;
+    this.debug = [];
 
     this.is_valid = typeof code === "string" && code.length !== 0;
 
@@ -35,9 +42,111 @@ function Parser(code) {
         // Now can parse the param order logic.
         this.parse_params();
     }
+
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////
+//----------------------------------------------------------------------------------------
+Parser.prototype.next_param = function() {
+    this.params.loc += 1;
+    return this.params[this.params.loc];
+}
+//----------------------------------------------------------------------------------------
+Parser.prototype.log = function(msg) {
+    var e = new Error();
+    var lines = e.stack.split("\n");
+    console.log(lines[2]);
+    var reg = /^\s*at\s*(.+)\s+\W*(\w[\w\W]*)\:(\d+)\:(\d+)[^\d]*$/;
+    var cap = reg.exec(lines[2]);
 
+    if(cap) {
+        var method = cap[1];
+        var file = cap[2];
+        var ln = cap[3];
+        var col = cap[4];
+    }
+    this.debug.push({ method: method, file: file, ln: ln, col: col, msg: msg });
+}
+//----------------------------------------------------------------------------------------
+Parser.prototype.step = function() {
+    if(this.context === undefined) {
+        this.context = this.methods[this.methods.length-1];
+        if(this.context === undefined) {
+            return false;
+        }
+        this.context.reset();
+    }
+
+
+    var op = this.context[this.context.pc];
+    this.context = op.exec(this, this.context);
+    if(this.context === undefined) {
+        return false;
+    }
+    return true;
+}
+//----------------------------------------------------------------------------------------
+Parser.prototype.tokenize = function() {
+    // Loop through each context creating a list of operations to use for that method.
+    for(var i = this.context_code.length; i--;) {
+        var code = this.context_code[i];
+        var iter = new char_iter(code, 0);
+        var method = [];
+        this.methods.push(method);
+        method.parser = this;
+        method.pc = -1;
+        method.add = function(op) {
+            this.push(op);
+        };
+        method.reset = function() { this.pc = 0; }
+        method.next = function() {
+            this.pc = this.pc !== -1 && this.pc+1 < this.length ? this.pc + 1 : -1;
+            return this;
+        };
+        method.prev = function() {
+            this.pc = 0 <= this.pc-1 ? this.pc-1 : -1;
+            return this;
+        };
+        method.jump_to = function(loc) {
+            if(0 <= loc && loc < this.length) {
+                this.pc = loc;
+            } else {
+                // Force the context to end.
+                this.pc = this.length-1;
+            }
+            return this;
+        }
+        method.index = i;
+        method.add({
+            exec: function(parser, context) {
+                parser.call_stack.push(method.index);
+                method.reset();
+                return method.next();
+            }
+        });
+        while(iter) {
+            var token = Parser.tokens[iter.get()];
+            if(token) {
+                iter = token.tokenize(this, method, iter);
+            } else {
+                if(this.is_debug) {
+                    this.log("Character '" + iter.get() + "' is not a valid token.");
+                }
+                iter = iter.next();
+            }
+        }
+        method.add({
+            exec: function(parser, context) {
+                var i = parser.call_stack.pop();
+                i = parser.call_stack.pop();
+                if(i !== undefined) {
+                    return parser.methods[i];
+                }
+                return undefined;
+            }
+        });
+    }
+}
 //////////////////////////////////////////////////////////////////////////////////////////
 //----------------------------------------------------------------------------------------
 Parser.prototype.parse_params = function() {
@@ -45,7 +154,7 @@ Parser.prototype.parse_params = function() {
         var bits = characters.bitify_char(iter.get());
         if(bits[0]) {
             // Special command for processing bits.
-            iter = undefined;
+            iter = this.handle_param_specific(iter, bits);
         } else {
             // Param specific command.
             iter = this.handle_param_specific(iter, bits);
@@ -53,28 +162,109 @@ Parser.prototype.parse_params = function() {
     }
 }
 //----------------------------------------------------------------------------------------
+Parser.prototype.handle_param_cmds_specific = function(iter, bits) {
+    if(this.is_debug) {
+        this.log("Commands like '"+iter.get()+"' currently are not supported for more complicated parameter sequences.");
+    }
+
+    return undefined;
+}
+//----------------------------------------------------------------------------------------
 Parser.prototype.handle_param_specific = function(iter, bits) {
-    if(bits[1]) {
+    // Map each value to a unique permutation.
+    var value = characters.char_to_int(iter.get());
+
+    // There are 128 different combinations.
+    var cmp = 0;
+
+    // 0
+    if(value === cmp++) {
+        this.params.unshift(new Reference(this.regs, 0));
+    }
+    // 1
+    else if(value === cmp++) {
+        this.params.unshift(new Reference(this.regs, 1));
+    }
+    // 2
+    else if(value === cmp++) {
+        this.params.unshift(new Reference(this.regs, 2));
+    }
+    //------------------------------------------------------------------------------------
+    // 00
+    else if(value === cmp++) {
+        this.params.unshift(new Reference(this.regs, 0));
+        this.params.unshift(new Reference(this.regs, 0));
+    }
+    // 01
+    else if(value === cmp++) {
+        this.params.unshift(new Reference(this.regs, 0));
+        this.params.unshift(new Reference(this.regs, 1));
+    }
+    // 02
+    else if(value === cmp++) {
+        this.params.unshift(new Reference(this.regs, 0));
+        this.params.unshift(new Reference(this.regs, 2));
+    }
+    // 10
+    else if(value === cmp++) {
+        this.params.unshift(new Reference(this.regs, 1));
+        this.params.unshift(new Reference(this.regs, 0));
+    }
+    // 11
+    else if(value === cmp++) {
+        this.params.unshift(new Reference(this.regs, 1));
+        this.params.unshift(new Reference(this.regs, 1));
+    }
+    // 12
+    else if(value === cmp++) {
+        this.params.unshift(new Reference(this.regs, 1));
+        this.params.unshift(new Reference(this.regs, 2));
+    }
+    // 20
+    else if(value === cmp++) {
+        this.params.unshift(new Reference(this.regs, 2));
+        this.params.unshift(new Reference(this.regs, 0));
+    }
+    // 21
+    else if(value === cmp++) {
+        this.params.unshift(new Reference(this.regs, 1));
+    }
+    // 22
+    else if(value === cmp++) {
+        this.params.unshift(new Reference(this.regs, 1));
+    }
+
+    //------------------------------------------------------------------------------------
+    // 012
+    else if(value === cmp++) {
+        this.params.unshift(new Reference(this.regs, 1));
+    }
+    // 021
+    else if(value === cmp++) {
+        this.params.unshift(new Reference(this.regs, 1));
+    }
+    // 102
+    else if(value === cmp++) {
+        this.params.unshift(new Reference(this.regs, 1));
+    }
+    // 120
+    else if(value === cmp++) {
+        this.params.unshift(new Reference(this.regs, 1));
+    }
+    // 201
+    else if(value === cmp++) {
+        this.params.unshift(new Reference(this.regs, 1));
+    }
+    // 210
+    else if(value === cmp++) {
+        this.params.unshift(new Reference(this.regs, 1));
+    }
+
+    else {
+        if(this.is_debug) {
+            this.log("The character '" + iter.get() + "' is not supported as parameter sequence code.");
+        }
         return undefined;
-    } else {
-        if(bits[2]) {
-            this.params.unshift(0);
-        }
-        if(bits[3]) {
-            this.params.unshift(1);
-        }
-        if(bits[4]) {
-            this.params.unshift(2);
-        }
-        if(bits[5]) {
-            this.params.unshift(0);
-        }
-        if(bits[6]) {
-            this.params.unshift(1);
-        }
-        if(bits[7]) {
-            this.params.unshift(2);
-        }
     }
     return iter;
 }
@@ -86,4 +276,4 @@ global.Parser = Parser;
 global.Parser.char_iter = char_iter;
 
 
-})(this, this.characters, this.NUMBER, this.STRING, this.stdout, this.stdin);
+})(this, this.characters, this.NUMBER, this.STRING, this.stdout, this.stdin, this.Reference);

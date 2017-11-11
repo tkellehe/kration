@@ -18,13 +18,18 @@ stdout.write = function() {
         } else {
             s = obj+"";
         }
-        stdout.__content__ += s;
+
+        stdout.__content__ = characters.insert_string(stdout.__content__, stdout.__loc__, s);
+        stdout.__loc__ += s.length
     }
 }
 //----------------------------------------------------------------------------------------
 stdout.clear = function() {
-    stdout.__content__ = ""
+    stdout.__content__ = "";
+    stdout.__loc__ = 0;
 }
+//----------------------------------------------------------------------------------------
+stdout.__loc__ = 0;
 //////////////////////////////////////////////////////////////////////////////////////////
 
 
