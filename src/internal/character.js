@@ -195,6 +195,12 @@ function reverse_string(s) {
 function insert_string(s, i, o) {
     return s.slice(0, i) + o + s.slice(i);
 }
+
+
+//----------------------------------------------------------------------------------------  
+function fix_string(s) {
+    return s.replace('\u00b6', '\n').replace('\u00a4', ' ');
+}
     
 
 //----------------------------------------------------------------------------------------
@@ -236,6 +242,7 @@ global.characters = {
     char_array: char_array,
     reverse_string: reverse_string,
     insert_string: insert_string,
+    fix_string: fix_string,
 }
 
 

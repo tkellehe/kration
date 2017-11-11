@@ -7,7 +7,8 @@ function STRING(obj) {
     this.is_kration_type = true;
     this.value = obj === undefined ? "" :
         (obj.is_kration_type ? obj.to_string() :
-            (typeof obj === "string" ? obj : "")) 
+            (typeof obj === "string" ? obj : ""));
+    this.value = characters.fix_string(this.value);
     this.props = {};
 }
 
