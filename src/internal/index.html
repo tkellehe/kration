@@ -36,7 +36,11 @@
 		var parser = new Parser(code.value, true);
 		if(parser.is_valid) {
 			parser.tokenize();
-			while(parser.step());
+			(function loop() {
+				if(parser.step()) {
+					setTimeout(loop, 10);
+				}
+			})()
 		} else {
 			stdout.write("FAILED\n");
 			for(var i = 0, l = parser.debug.length; i < l; ++i) {
