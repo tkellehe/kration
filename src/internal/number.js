@@ -12,7 +12,7 @@ function NUMBER(obj) {
     } else if(typeof obj !== "number") {
         obj = 0;
     }
-    this.value = obj === NaN ? 0 : obj;
+    this.value = obj !== obj ? 0 : obj;
     this.props = {};
 }
 
