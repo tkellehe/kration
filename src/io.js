@@ -2,7 +2,7 @@
 
 
 //----------------------------------------------------------------------------------------
-Parser.tokens[characters.handle_bug("»")] = {
+Parser.tokens[characters.handle_bug("«")] = {
     tokenize : function(parser, method, iter) {
         method.add({
             exec : function(parser, context) {
@@ -17,7 +17,7 @@ Parser.tokens[characters.handle_bug("»")] = {
 }
 
 //----------------------------------------------------------------------------------------
-Parser.tokens[characters.handle_bug("«")] = {
+Parser.tokens[characters.handle_bug("»")] = {
     tokenize : function(parser, method, iter) {
         method.add({
             exec : function(parser, context) {
