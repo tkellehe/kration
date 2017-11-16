@@ -1,4 +1,4 @@
-(function(global, characters, NUMBER, STRING, stdout, stdin, Reference){
+(function(global, characters, NUMBER, STRING, ARRAY, stdout, stdin, Reference){
 
 
 //----------------------------------------------------------------------------------------
@@ -22,7 +22,7 @@ Parser.tokens = {};
 //----------------------------------------------------------------------------------------
 function Parser(code, is_debug) {
     this.props = { };
-    this.regs = [new NUMBER(0), new STRING(""), new STRING("Hello, World!")];
+    this.regs = [new NUMBER(0), new STRING(""), new ARRAY([])];
     this.params = [];
     this.params.loc = -1;
     this.methods = [];
@@ -276,4 +276,4 @@ global.Parser = Parser;
 global.Parser.char_iter = char_iter;
 
 
-})(this, this.characters, this.NUMBER, this.STRING, this.stdout, this.stdin, this.Reference);
+})(this, this.characters, this.NUMBER, this.STRING, this.ARRAY, this.stdout, this.stdin, this.Reference);
