@@ -26,7 +26,7 @@ Parser.tokens[characters.handle_bug("»")] = {
                 var content = param.get();
                 if(content.type === "ARRAY") {
                     var temp = input.to_number();
-                    if(typeof temp === "number" && temp !== NaN) {
+                    if(typeof temp === "number" && temp === temp) {
                         input = new NUMBER(temp);
                     }
                     param.set(content.add_item_onto_the_left(input));
