@@ -5,9 +5,14 @@
 function NUMBER(obj) {
     this.type = "NUMBER";
     this.is_kration_type = true;
-    this.value = obj === undefined ? 0 :
-        (obj.is_kration_type ? obj.to_number() :
-            (typeof obj === "number" && obj !== NaN ? obj : 0)) 
+    if(obj === undefined) {
+        obj = 0;
+    } else if(obj.is_kration_type) {
+        obj = obj.to_number();
+    } else if(typeof obj !== "number") {
+        obj = 0;
+    }
+    this.value = obj === NaN ? 0 : obj;
     this.props = {};
 }
 
