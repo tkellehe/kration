@@ -1,4 +1,4 @@
-(function(global, characters, Parser, stdin, stdout, NUMBER, STRING, Reference){
+(function(global, characters, Parser, stdin, stdout, NUMBER, STRING, ARRAY, Reference){
 
 
 //----------------------------------------------------------------------------------------
@@ -33,4 +33,4 @@ Parser.tokens[characters.handle_bug("»")] = {
 }
 
 
-})(this, this.characters, this.Parser, this.stdin, this.stdout, this.NUMBER, this.STRING, this.Reference);
+})(this, this.characters, this.Parser, this.stdin, this.stdout, this.NUMBER, this.STRING, this.ARRAY, this.Reference);
