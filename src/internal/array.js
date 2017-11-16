@@ -30,6 +30,8 @@ function TO_STRING(obj) {
         return "undefined";
     } else if(obj.is_kration_type) {
         return obj.to_string();
+    } else if(typeof obj === "string") {
+        return '"' + obj + '"';
     } else {
         return obj.toString();
     }
