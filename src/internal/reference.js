@@ -26,6 +26,10 @@ function Reference(context, prop) {
     }
 
     this.point_to(context, prop);
+    
+    this.copy = function() { 
+        return new Reference(this.context, this.prop);
+    };
 }
 
 //----------------------------------------------------------------------------------------
