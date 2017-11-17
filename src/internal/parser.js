@@ -163,8 +163,116 @@ Parser.prototype.parse_params = function() {
 }
 //----------------------------------------------------------------------------------------
 Parser.prototype.handle_param_cmds_specific = function(iter, bits) {
-    if(this.is_debug) {
-        this.log("Commands like '"+iter.get()+"' currently are not supported for more complicated parameter sequences.");
+    // Map each value to a unique permutation.
+    var value = characters.char_to_int(iter.get());
+    
+    // There are 127 different combinations.
+    var base = 128;
+    
+    //************************************************************************************
+    // Character code repeat section (10).
+    if(base+0 <= value && value < base+10 && this.params.length) {
+        // +1
+        if(value === base+0) {
+            var p = this.params[this.params.length-1];
+            this.params.unshift(p.copy());
+        }
+        // +2
+        else if(value === base+1) {
+            var p = this.params[this.params.length-1];
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+        }
+        // +3
+        else if(value === base+2) {
+            var p = this.params[this.params.length-1];
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+        }
+        // +4
+        else if(value === base+3) {
+            var p = this.params[this.params.length-1];
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+        }
+        // +5
+        else if(value === base+4) {
+            var p = this.params[this.params.length-1];
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+        }
+        // +6
+        else if(value === base+5) {
+            var p = this.params[this.params.length-1];
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+        }
+        // +7
+        else if(value === base+6) {
+            var p = this.params[this.params.length-1];
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+        }
+        // +8
+        else if(value === base+7) {
+            var p = this.params[this.params.length-1];
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+        }
+        // +9
+        else if(value === base+8) {
+            var p = this.params[this.params.length-1];
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+        }
+        // +10
+        else if(value === base+9) {
+            var p = this.params[this.params.length-1];
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+            this.params.unshift(p.copy());
+        }
+    }
+    //************************************************************************************
+    else {
+        if(this.is_debug) {
+            this.log("Commands like '"+iter.get()+"' currently are not supported for more complicated parameter sequences.");
+        }
     }
 
     return undefined;
