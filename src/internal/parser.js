@@ -175,97 +175,97 @@ Parser.prototype.handle_param_cmds_specific = function(iter, bits) {
         // +1
         if(value === base+0) {
             var p = this.params[this.params.length-1];
-            this.params.unshift(p.copy());
+            this.params.push(p.copy());
         }
         // +2
         else if(value === base+1) {
             var p = this.params[this.params.length-1];
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
         }
         // +3
         else if(value === base+2) {
             var p = this.params[this.params.length-1];
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
         }
         // +4
         else if(value === base+3) {
             var p = this.params[this.params.length-1];
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
         }
         // +5
         else if(value === base+4) {
             var p = this.params[this.params.length-1];
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
         }
         // +6
         else if(value === base+5) {
             var p = this.params[this.params.length-1];
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
         }
         // +7
         else if(value === base+6) {
             var p = this.params[this.params.length-1];
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
         }
         // +8
         else if(value === base+7) {
             var p = this.params[this.params.length-1];
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
         }
         // +9
         else if(value === base+8) {
             var p = this.params[this.params.length-1];
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
         }
         // +10
         else if(value === base+9) {
             var p = this.params[this.params.length-1];
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
-            this.params.unshift(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
+            this.params.push(p.copy());
         }
     }
     //************************************************************************************
@@ -287,85 +287,85 @@ Parser.prototype.handle_param_specific = function(iter, bits) {
 
     // 0
     if(value === cmp++) {
-        this.params.unshift(new Reference(this.regs, 0));
+        this.params.push(new Reference(this.regs, 0));
     }
     // 1
     else if(value === cmp++) {
-        this.params.unshift(new Reference(this.regs, 1));
+        this.params.push(new Reference(this.regs, 1));
     }
     // 2
     else if(value === cmp++) {
-        this.params.unshift(new Reference(this.regs, 2));
+        this.params.push(new Reference(this.regs, 2));
     }
     //------------------------------------------------------------------------------------
     // 00
     else if(value === cmp++) {
-        this.params.unshift(new Reference(this.regs, 0));
-        this.params.unshift(new Reference(this.regs, 0));
+        this.params.push(new Reference(this.regs, 0));
+        this.params.push(new Reference(this.regs, 0));
     }
     // 01
     else if(value === cmp++) {
-        this.params.unshift(new Reference(this.regs, 0));
-        this.params.unshift(new Reference(this.regs, 1));
+        this.params.push(new Reference(this.regs, 0));
+        this.params.push(new Reference(this.regs, 1));
     }
     // 02
     else if(value === cmp++) {
-        this.params.unshift(new Reference(this.regs, 0));
-        this.params.unshift(new Reference(this.regs, 2));
+        this.params.push(new Reference(this.regs, 0));
+        this.params.push(new Reference(this.regs, 2));
     }
     // 10
     else if(value === cmp++) {
-        this.params.unshift(new Reference(this.regs, 1));
-        this.params.unshift(new Reference(this.regs, 0));
+        this.params.push(new Reference(this.regs, 1));
+        this.params.push(new Reference(this.regs, 0));
     }
     // 11
     else if(value === cmp++) {
-        this.params.unshift(new Reference(this.regs, 1));
-        this.params.unshift(new Reference(this.regs, 1));
+        this.params.push(new Reference(this.regs, 1));
+        this.params.push(new Reference(this.regs, 1));
     }
     // 12
     else if(value === cmp++) {
-        this.params.unshift(new Reference(this.regs, 1));
-        this.params.unshift(new Reference(this.regs, 2));
+        this.params.push(new Reference(this.regs, 1));
+        this.params.push(new Reference(this.regs, 2));
     }
     // 20
     else if(value === cmp++) {
-        this.params.unshift(new Reference(this.regs, 2));
-        this.params.unshift(new Reference(this.regs, 0));
+        this.params.push(new Reference(this.regs, 2));
+        this.params.push(new Reference(this.regs, 0));
     }
     // 21
     else if(value === cmp++) {
-        this.params.unshift(new Reference(this.regs, 1));
+        this.params.push(new Reference(this.regs, 1));
     }
     // 22
     else if(value === cmp++) {
-        this.params.unshift(new Reference(this.regs, 1));
+        this.params.push(new Reference(this.regs, 1));
     }
 
     //------------------------------------------------------------------------------------
     // 012
     else if(value === cmp++) {
-        this.params.unshift(new Reference(this.regs, 1));
+        this.params.push(new Reference(this.regs, 1));
     }
     // 021
     else if(value === cmp++) {
-        this.params.unshift(new Reference(this.regs, 1));
+        this.params.push(new Reference(this.regs, 1));
     }
     // 102
     else if(value === cmp++) {
-        this.params.unshift(new Reference(this.regs, 1));
+        this.params.push(new Reference(this.regs, 1));
     }
     // 120
     else if(value === cmp++) {
-        this.params.unshift(new Reference(this.regs, 1));
+        this.params.push(new Reference(this.regs, 1));
     }
     // 201
     else if(value === cmp++) {
-        this.params.unshift(new Reference(this.regs, 1));
+        this.params.push(new Reference(this.regs, 1));
     }
     // 210
     else if(value === cmp++) {
-        this.params.unshift(new Reference(this.regs, 1));
+        this.params.push(new Reference(this.regs, 1));
     }
 
     else {
