@@ -154,7 +154,7 @@ Parser.prototype.parse_params = function() {
         var bits = characters.bitify_char(iter.get());
         if(bits[0]) {
             // Special command for processing bits.
-            iter = this.handle_param_specific(iter, bits);
+            iter = this.handle_param_cmds_specific(iter, bits);
         } else {
             // Param specific command.
             iter = this.handle_param_specific(iter, bits);
