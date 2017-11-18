@@ -35,6 +35,8 @@ Parser.tokens[characters.handle_bug("»")] = {
                 } else {
                     param.set(input);
                 }
+                // Always push on where placed the result.
+                parser.add_param(param.copy());
                 return context.next();
             }
         });
