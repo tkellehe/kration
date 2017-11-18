@@ -52,6 +52,7 @@ Parser.is_valid_param = function(p) {
 }
 //----------------------------------------------------------------------------------------
 Parser.prototype.next_param = function() {
+    // make where figures out the best param if empty.
     this.params.loc += 1;
     return this.params[this.params.loc];
 }
