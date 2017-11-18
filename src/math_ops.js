@@ -10,6 +10,7 @@ Parser.tokens[characters.handle_bug("+")] = {
                 var b = parser.next_param().get();
                 var r = parser.next_param();
                 r.set(a.add_item_onto_the_right(b));
+                parser.add_param(r.copy());
                 return context.next();
             }
         });
