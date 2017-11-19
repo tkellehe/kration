@@ -161,16 +161,21 @@ Parser.prototype.tokenize = function() {
 //////////////////////////////////////////////////////////////////////////////////////////
 //----------------------------------------------------------------------------------------
 Parser.prototype.parse_params = function() {
-    for(var iter = new char_iter(this.reg_code); iter; iter = iter && iter.next()) {
-        var bits = characters.bitify_char(iter.get());
-        if(bits[0]) {
-            // Special command for processing bits.
-            iter = this.handle_param_cmds_specific(iter, bits);
-        } else {
-            // Param specific command.
-            iter = this.handle_param_specific(iter, bits);
-        }
+    for(var iter = new char_iter(this.reg_code); iter;) {
+        iter = this.process_param_token(iter);
     }
+}
+//----------------------------------------------------------------------------------------
+Parser.prototype.process_param_token = function(iter) {
+    var bits = characters.bitify_char(iter.get());
+    if(bits[0]) {
+        // Special command for processing bits.
+        iter = this.handle_param_cmds_specific(iter, bits);
+    } else {
+        // Param specific command.
+        iter = this.handle_param_specific(iter, bits);
+    }
+    return iter;
 }
 //----------------------------------------------------------------------------------------
 Parser.prototype.handle_param_cmds_specific = function(iter, bits) {
@@ -182,101 +187,92 @@ Parser.prototype.handle_param_cmds_specific = function(iter, bits) {
     
     //************************************************************************************
     // Character code repeat section (10).
-    if(base+0 <= value && value < base+10 && this.params.length) {
+    var p = iter.prev();
+    if(base+0 <= value && value < base+10 && p) {
         // +1
         if(value === base+0) {
-            var p = this.params[this.params.length-1];
-            this.add_param(p.copy());
+            this.process_param_token(p);
         }
         // +2
         else if(value === base+1) {
-            var p = this.params[this.params.length-1];
-            this.add_param(p.copy());
-            this.add_param(p.copy());
+            this.process_param_token(p);
+            this.process_param_token(p);
         }
         // +3
         else if(value === base+2) {
-            var p = this.params[this.params.length-1];
-            this.add_param(p.copy());
-            this.add_param(p.copy());
-            this.add_param(p.copy());
+            this.process_param_token(p);
+            this.process_param_token(p);
+            this.process_param_token(p);
         }
         // +4
         else if(value === base+3) {
-            var p = this.params[this.params.length-1];
-            this.add_param(p.copy());
-            this.add_param(p.copy());
-            this.add_param(p.copy());
-            this.add_param(p.copy());
+            this.process_param_token(p);
+            this.process_param_token(p);
+            this.process_param_token(p);
+            this.process_param_token(p);
         }
         // +5
         else if(value === base+4) {
-            var p = this.params[this.params.length-1];
-            this.add_param(p.copy());
-            this.add_param(p.copy());
-            this.add_param(p.copy());
-            this.add_param(p.copy());
-            this.add_param(p.copy());
+            this.process_param_token(p);
+            this.process_param_token(p);
+            this.process_param_token(p);
+            this.process_param_token(p);
+            this.process_param_token(p);
         }
         // +6
         else if(value === base+5) {
-            var p = this.params[this.params.length-1];
-            this.add_param(p.copy());
-            this.add_param(p.copy());
-            this.add_param(p.copy());
-            this.add_param(p.copy());
-            this.add_param(p.copy());
-            this.add_param(p.copy());
+            this.process_param_token(p);
+            this.process_param_token(p);
+            this.process_param_token(p);
+            this.process_param_token(p);
+            this.process_param_token(p);
+            this.process_param_token(p);
         }
         // +7
         else if(value === base+6) {
-            var p = this.params[this.params.length-1];
-            this.add_param(p.copy());
-            this.add_param(p.copy());
-            this.add_param(p.copy());
-            this.add_param(p.copy());
-            this.add_param(p.copy());
-            this.add_param(p.copy());
-            this.add_param(p.copy());
+            this.process_param_token(p);
+            this.process_param_token(p);
+            this.process_param_token(p);
+            this.process_param_token(p);
+            this.process_param_token(p);
+            this.process_param_token(p);
+            this.process_param_token(p);
         }
         // +8
         else if(value === base+7) {
-            var p = this.params[this.params.length-1];
-            this.add_param(p.copy());
-            this.add_param(p.copy());
-            this.add_param(p.copy());
-            this.add_param(p.copy());
-            this.add_param(p.copy());
-            this.add_param(p.copy());
-            this.add_param(p.copy());
-            this.add_param(p.copy());
+            this.process_param_token(p);
+            this.process_param_token(p);
+            this.process_param_token(p);
+            this.process_param_token(p);
+            this.process_param_token(p);
+            this.process_param_token(p);
+            this.process_param_token(p);
+            this.process_param_token(p);
         }
         // +9
         else if(value === base+8) {
-            var p = this.params[this.params.length-1];
-            this.add_param(p.copy());
-            this.add_param(p.copy());
-            this.add_param(p.copy());
-            this.add_param(p.copy());
-            this.add_param(p.copy());
-            this.add_param(p.copy());
-            this.add_param(p.copy());
-            this.add_param(p.copy());
-            this.add_param(p.copy());
+            this.process_param_token(p);
+            this.process_param_token(p);
+            this.process_param_token(p);
+            this.process_param_token(p);
+            this.process_param_token(p);
+            this.process_param_token(p);
+            this.process_param_token(p);
+            this.process_param_token(p);
+            this.process_param_token(p);
         }
         // +10
         else if(value === base+9) {
-            var p = this.params[this.params.length-1];
-            this.add_param(p.copy());
-            this.add_param(p.copy());
-            this.add_param(p.copy());
-            this.add_param(p.copy());
-            this.add_param(p.copy());
-            this.add_param(p.copy());
-            this.add_param(p.copy());
-            this.add_param(p.copy());
-            this.add_param(p.copy());
-            this.add_param(p.copy());
+            this.process_param_token(p);
+            this.process_param_token(p);
+            this.process_param_token(p);
+            this.process_param_token(p);
+            this.process_param_token(p);
+            this.process_param_token(p);
+            this.process_param_token(p);
+            this.process_param_token(p);
+            this.process_param_token(p);
+            this.process_param_token(p);
         }
     }
     //************************************************************************************
@@ -284,9 +280,10 @@ Parser.prototype.handle_param_cmds_specific = function(iter, bits) {
         if(this.is_debug) {
             this.log("Commands like '"+iter.get()+"' currently are not supported for more complicated parameter sequences.");
         }
+        return undefined;
     }
 
-    return undefined;
+    return iter.next();
 }
 //----------------------------------------------------------------------------------------
 Parser.prototype.handle_param_specific = function(iter, bits) {
@@ -385,7 +382,7 @@ Parser.prototype.handle_param_specific = function(iter, bits) {
         }
         return undefined;
     }
-    return iter;
+    return iter.next();
 }
 //////////////////////////////////////////////////////////////////////////////////////////
 
