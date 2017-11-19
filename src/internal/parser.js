@@ -67,7 +67,7 @@ Parser.prototype.next_param = function() {
             var p0 = this.params[loc-2];
             var p1 = this.params[loc-1];
             if(p0.is_reference_type && p1.is_reference_type) {
-                this.paras[loc] = new Reference(this.regs, +("012".replace(p0.prop, "").replace(p1.prop, "")[0]));
+                this.params[loc] = new Reference(this.regs, +("012".replace(p0.prop, "").replace(p1.prop, "")[0]));
             }
         }
     }
