@@ -52,9 +52,27 @@ Parser.is_valid_param = function(p) {
 }
 //----------------------------------------------------------------------------------------
 Parser.prototype.next_param = function() {
-    // make where figures out the best param if empty.
-    this.params.loc += 1;
-    return this.params[this.params.loc];
+    var loc = ++this.params.loc;
+    
+    if(this.params[loc] === undefined) {
+        if(this.params.length === 0) {
+            this.params[loc] = new Reference(this.regs, 0);
+        } else if(this.params.length === 1) {
+            var p = this.params[0];
+            if(p.is_reference_type) {
+                var reg = (p.prop + 1)%this.regs.length;
+                this.params[loc] = new Reference(this.regs, reg);
+            }
+        } else {
+            var p0 = this.params[loc-2];
+            var p1 = this.params[loc-1];
+            if(p0.is_reference_type && p1.is_reference_type) {
+                this.paras[loc] = new Reference(this.regs, +("012".replace(p0.prop, "").replace(p1.prop, "")[0]));
+            }
+        }
+    }
+    
+    return this.params[loc];
 }
 //----------------------------------------------------------------------------------------
 Parser.prototype.add_param = function(p) {
