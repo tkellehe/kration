@@ -179,7 +179,7 @@ Parser.prototype.tokenize = function() {
 //////////////////////////////////////////////////////////////////////////////////////////
 //----------------------------------------------------------------------------------------
 Parser.prototype.parse_params = function() {
-    for(var iter = new char_iter(this.reg_code); iter;) {
+    for(var iter = new char_iter(this.reg_code); iter && iter.get();) {
         iter = this.process_param_token(iter);
     }
 }
